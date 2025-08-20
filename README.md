@@ -15,9 +15,7 @@ A web-based interface for managing multiple Claude Code sessions across Git work
 
 ## Demo
 
-
 https://github.com/user-attachments/assets/a422e29d-eb0e-4cf2-bace-7f5e50f69cb5
-
 
 ## Features
 
@@ -31,10 +29,12 @@ https://github.com/user-attachments/assets/a422e29d-eb0e-4cf2-bace-7f5e50f69cb5
 ## Prerequisites
 
 - [Claude Code CLI](https://claude.ai/code) must be installed and available in your PATH
-- Node.js 18+ 
+- Node.js 18+
 - Git repository (the tool manages Git worktrees)
 
 ## Installation
+
+### Option 1: NPM Package
 
 [![npm install claude-code-crew](https://nodei.co/npm/claude-code-crew.png?mini=true)](https://npmjs.org/package/claude-code-crew)
 
@@ -42,7 +42,27 @@ https://github.com/user-attachments/assets/a422e29d-eb0e-4cf2-bace-7f5e50f69cb5
 npm install -g claude-code-crew
 ```
 
+### Option 2: Docker (推荐)
+
+简单的一键部署：
+
+```bash
+# 克隆项目
+git clone https://github.com/to-na/claude-code-crew.git
+cd claude-code-crew
+
+# 一键启动
+docker-compose up -d
+
+# 或使用 Make
+make start
+```
+
+详细说明请参考：[� 简化部署指南](SIMPLE-DEPLOY.md)
+
 ## Usage
+
+### 本地安装方式
 
 Navigate to any Git repository and run:
 
@@ -51,9 +71,20 @@ cd /path/to/your/git/repo
 claude-code-crew
 ```
 
+### Docker 方式
+
+```bash
+# 启动服务
+docker-compose up -d
+
+# 或者使用 Make
+make start
+```
+
 The web interface will be available at **http://localhost:3001**
 
 ### Available Features:
+
 - **View Worktrees**: See all git worktrees in the sidebar
 - **Create Sessions**: Click on any worktree to start a Claude Code session
 - **Monitor Status**: Real-time session state indicators (busy/waiting/idle)
@@ -69,6 +100,7 @@ The web interface will be available at **http://localhost:3001**
 - `CC_CLAUDE_ARGS`: Additional arguments for Claude Code sessions
 
 ### Example with custom port:
+
 ```bash
 PORT=8080 claude-code-crew
 ```
@@ -76,18 +108,21 @@ PORT=8080 claude-code-crew
 ## Architecture
 
 ### Backend (Node.js + Express + Socket.io)
+
 - REST API for worktree operations
 - WebSocket server for terminal sessions
 - PTY management using node-pty
 - Session state detection and history preservation
 
 ### Frontend (React + TypeScript + Material-UI)
+
 - Terminal emulation with xterm.js
 - Real-time session status updates
 - Worktree management UI
 - Responsive sidebar navigation
 
 ### Single-port Design
+
 - Serves both API and web UI on the same port
 - No CORS configuration needed
 - Easy to deploy and use
@@ -97,6 +132,7 @@ PORT=8080 claude-code-crew
 For contributors who want to develop claude-code-crew:
 
 ### Setup
+
 ```bash
 git clone https://github.com/to-na/claude-code-crew.git
 cd claude-code-crew
@@ -104,12 +140,14 @@ pnpm install
 ```
 
 ### Development Mode
+
 ```bash
 # Start development environment
 ./start.sh
 ```
 
 ### Build
+
 ```bash
 pnpm run build
 ```
@@ -126,17 +164,21 @@ pnpm run build
 ### Common Issues
 
 **"claude: command not found"**
+
 - Install Claude Code CLI first: https://claude.ai/code
 
 **"No worktrees found"**
+
 - Make sure you're running the command inside a Git repository
 - Check that the repository has at least one worktree
 
 **Port already in use**
+
 - Change the port: `PORT=8080 claude-code-crew`
 - Or stop the process using port 3001
 
 **Terminal not showing history**
+
 - Try clicking on the worktree again to reactivate the session
 - Check browser console for WebSocket connection errors
 
@@ -151,6 +193,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Support
 
 If you find this project useful, please consider:
+
 - ⭐ Starring the repository
 - 🐛 Reporting bugs or suggesting features
 - 💖 [Becoming a sponsor](https://github.com/sponsors/to-na)

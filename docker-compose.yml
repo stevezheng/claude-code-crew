@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  claude-code-crew:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '${EXPOSED_PORT:-3001}:3001'
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - WORK_DIR=/workspace
+    volumes:
+      # 挂载工作目录，允许容器内操作本地文件
+      - ${WORKSPACE_DIR:-${PWD}}:/workspace
+      # 挂载 git 配置
+      - ${GIT_CONFIG_PATH:-~/.gitconfig}:/root/.gitconfig:ro
+      - ${SSH_KEY_PATH:-~/.ssh}:/root/.ssh:ro
+    working_dir: /workspace
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3001/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
