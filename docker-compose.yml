@@ -17,7 +17,7 @@ services:
       # 挂载 git 配置
       - ${GIT_CONFIG_PATH:-~/.gitconfig}:/root/.gitconfig:ro
       - ${SSH_KEY_PATH:-~/.ssh}:/root/.ssh:ro
-    working_dir: /workspace
+    working_dir: /app
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:3001/api/health']
